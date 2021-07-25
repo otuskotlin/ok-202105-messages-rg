@@ -12,13 +12,14 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/ok-m1-l1" />
+            <option value="$PROJECT_DIR$/ok-m1l1" />
             <option value="$PROJECT_DIR$/ok-m1l4" />
             <option value="$PROJECT_DIR$/ok-m1l5" />
 
             <option value="$PROJECT_DIR$/ok-m1l6" />
+            <option value="$PROJECT_DIR$/ok-m1l7" />
+            <option value="$PROJECT_DIR$/ok-m2l2-testing" />
            <option value="$PROJECT_DIR$/ok-m1l7" />
-
           </set>
         </option>
       </GradleProjectSettings>
