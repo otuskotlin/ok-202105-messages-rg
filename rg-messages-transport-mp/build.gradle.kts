@@ -13,7 +13,6 @@ dependencies {
     implementation(kotlin("stdlib"))
 
     implementation(project(":rg-messages-transport-common"))
-    implementation(project(":rg-messages-transport-mp"))
 
     testImplementation(kotlin("test"))
 }
