@@ -1,4 +1,4 @@
-rootProject.name = "marketplace"
+rootProject.name = "rg-messages"
 pluginManagement {
     plugins {
         val kotlinVersion: String by settings
@@ -19,5 +19,6 @@ include("ok-m1l7")
 include("ok-m2l2-testing")
 include("rg-messages-transport-mp")
 include("rg-messages-transport-openapi")
+include("rg-messages-mapping-openapi")
 include("rg-messages-transport-common")
 

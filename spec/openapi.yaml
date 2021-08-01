@@ -200,7 +200,15 @@ components:
           $ref: '#/components/schemas/AdVisibility'
         dealSide:
           $ref: '#/components/schemas/AdDealSide'
-
+    ReadAdResponse:
+      description: Структура для ответа на запрос с информацией об объявлении
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            readAd:
+              $ref: '#/components/schemas/ResponseAd'
     UpdateableAd:
       description: Структура для данных об объявлении в запросе на обновление
       allOf:
