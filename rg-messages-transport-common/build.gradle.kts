@@ -2,8 +2,8 @@ plugins {
     kotlin("jvm")
 }
 
-group = "org.example"
-version = "1.0-SNAPSHOT"
+group = rootProject.group
+version = rootProject.version
 
 repositories {
     mavenCentral()
@@ -11,6 +11,4 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-
-    testImplementation(kotlin("test-junit"))
 }
