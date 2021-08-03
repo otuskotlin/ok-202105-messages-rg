@@ -1,8 +1,9 @@
-package ru.otus.otuskotlin.marketplace.backend.transport.mapping.kmp
+package ru.otus.otuskotlin.messages.backend.transport.mapping.kmp
 
 import org.example.openapi.models.*
 import ru.otus.otuskotlin.marketplace.backend.common.context.MpContext
 import ru.otus.otuskotlin.marketplace.backend.common.models.*
+import ru.otus.otuskotlin.messages.backend.common.models.OwnerIdModel
 
 
 fun MpContext.toInitResponse() = InitAdResponse(

@@ -1,8 +1,9 @@
-package ru.otus.otuskotlin.marketplace.backend.transport.mapping.kmp
+package ru.otus.otuskotlin.messages.backend.transport.mapping.kmp
 
 import org.example.openapi.models.UpdateMessageRequest
 import ru.otus.otuskotlin.marketplace.backend.common.context.MpContext
 import ru.otus.otuskotlin.marketplace.backend.common.models.*
+import ru.otus.otuskotlin.messages.backend.common.models.OwnerIdModel
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

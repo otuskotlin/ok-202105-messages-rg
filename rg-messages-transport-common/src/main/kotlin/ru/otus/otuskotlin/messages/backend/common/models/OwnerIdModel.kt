@@ -1,4 +1,4 @@
-package ru.otus.otuskotlin.marketplace.backend.common.models
+package ru.otus.otuskotlin.messages.backend.common.models
 
 @JvmInline
 value class OwnerIdModel(val id: String) {

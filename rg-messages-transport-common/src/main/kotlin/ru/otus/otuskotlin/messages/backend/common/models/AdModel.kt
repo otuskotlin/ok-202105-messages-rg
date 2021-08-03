@@ -1,5 +1,7 @@
 package ru.otus.otuskotlin.marketplace.backend.common.models
 
+import ru.otus.otuskotlin.messages.backend.common.models.OwnerIdModel
+
 data class AdModel(
     var id: AdIdModel = AdIdModel.NONE,
     var title: String = "",
