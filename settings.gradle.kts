@@ -21,4 +21,5 @@ include("rg-messages-transport-mp")
 include("rg-messages-transport-openapi")
 include("rg-messages-mapping-openapi")
 include("rg-messages-transport-common")
+include("spring-backend-app")
 
