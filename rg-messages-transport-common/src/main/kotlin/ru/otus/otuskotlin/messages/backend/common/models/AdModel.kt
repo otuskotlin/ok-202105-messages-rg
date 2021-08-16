@@ -1,6 +1,6 @@
-package ru.otus.otuskotlin.marketplace.backend.common.models
+package ru.otus.otuskotlin.messages.backend.common.models
 
-import ru.otus.otuskotlin.messages.backend.common.models.OwnerIdModel
+import ru.otus.otuskotlin.marketplace.backend.common.models.AdIdModel
 
 data class AdModel(
     var id: AdIdModel = AdIdModel.NONE,

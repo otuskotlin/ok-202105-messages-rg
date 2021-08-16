@@ -1,4 +1,6 @@
-package ru.otus.otuskotlin.marketplace.backend.common.models
+package ru.otus.otuskotlin.messages.backend.common.models
+
+import ru.otus.otuskotlin.marketplace.backend.common.models.AdIdModel
 
 data class PaginatedModel(
     var size: Int = Int.MIN_VALUE,

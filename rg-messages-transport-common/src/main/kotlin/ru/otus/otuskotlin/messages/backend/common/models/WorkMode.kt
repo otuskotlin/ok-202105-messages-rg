@@ -1,4 +1,4 @@
-package ru.otus.otuskotlin.marketplace.backend.common.models
+package ru.otus.otuskotlin.messages.backend.common.models
 
 enum class WorkMode {
     PROD,
