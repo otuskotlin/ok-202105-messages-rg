@@ -133,10 +133,10 @@ components:
     BaseRequest:
       description: Базовый класс для всех запросов
       properties:
-        requestId:
+        requestUUID:
           type: string
-        payload:
-          type: string
+          format: uuid
+
 
     BaseResponse:
       description: Базовый класс для всех ответов
@@ -218,6 +218,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/BaseMessage'
         - $ref: '#/components/schemas/BaseRequest'
+        - $ref: '#/components/schemas/MessageMetaInfo'
 
 
     CreateMessageResponse:
@@ -229,14 +230,18 @@ components:
 
 
     ReadMessageRequest:
+
       description: Структура для получения объявления
       allOf:
         - $ref: '#/components/schemas/BaseMessage'
         - $ref: '#/components/schemas/BaseRequest'
         - type: object
+          required:
+            - messageUUID
           properties:
-            Id:
+            messageUUID:
               type: string
+              format: uuid
             debug:
               allOf:
                 - $ref: '#/components/schemas/BaseDebugRequest'
@@ -266,11 +271,13 @@ components:
         - $ref: '#/components/schemas/BaseMessage'
         - $ref: '#/components/schemas/BaseRequest'
         - type: object
+          required:
+            - payload
+            - messageUUID
           properties:
-            createMessage:
+            messageUUID:
               type: string
-            id:
-              type: string
+              format: uuid
             payload:
               type: string
             debug:
@@ -291,9 +298,16 @@ components:
         - $ref: '#/components/schemas/BaseMessage'
         - $ref: '#/components/schemas/BaseResponse'
         - type: object
+          required:
+            - payload
+            - messageUUID
           properties:
+            messageUUID:
+              type: string
+              format: uuid
             payload:
               type: string
+
 
 
     DeleteMessageRequest:
@@ -336,6 +350,30 @@ components:
           properties:
             page:
               $ref: '#/components/schemas/BasePaginatedRequest'
+    MessageMetaInfo:
+      description: мета-инфомация для сообщения
+      type: object
+      properties:
+        parentUuid:
+          description: сообщение родитель
+          type: string
+          format: uuid
+        payload:
+          description: текст сообщения
+          type: string
+        from:
+          description: uuid клиента или техподдержки (Кто отправитель ?)
+          type: string
+          format: uuid
+        to:
+          description: uuid клиента или техподдержки (Кто получатель ?)
+          type: string
+          format: uuid
+      required:
+        - payload
+        - from
+        - to
+
 
     SearchMessageResponse:
       description: Структура для ответа на запрос поиска объявлений
@@ -346,7 +384,7 @@ components:
           properties:
             page:
               $ref: '#/components/schemas/BasePaginatedResponse'
-            foundAds:
+            foundMessages:
               type: array
               items:
                 $ref: '#/components/schemas/ResponseMessage'
