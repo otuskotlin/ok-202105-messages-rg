@@ -1,5 +1,6 @@
 
 plugins {
+
     kotlin("jvm")
     id("org.springframework.boot") version "2.5.2"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
@@ -7,16 +8,21 @@ plugins {
 }
 val springBootVersion: String by project
 val springDependencyManagementVersion: String by project
-group = "org.example"
-version = "1.0-SNAPSHOT"
+group = "com.messages"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
 }
-
+dependencyManagement {
+    imports {
+        mavenBom("org.keycloak.bom:keycloak-adapter-bom:12.0.4")
+    }
+}
 dependencies {
     implementation(kotlin("stdlib"))
-
+    implementation("org.keycloak:keycloak-spring-boot-starter:15.0.1")
+    implementation("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
     implementation("com.h2database:h2:1.4.200")
     implementation ("org.springframework.boot:spring-boot-starter-actuator")
     implementation ("org.springframework.boot:spring-boot-starter-web")
