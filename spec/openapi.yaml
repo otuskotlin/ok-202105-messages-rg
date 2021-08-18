@@ -123,6 +123,9 @@ components:
       type: object
       description: Базовый класс как для запросов, так и для ответов
       properties:
+        messageUUID:
+          type: string
+          format: uuid
         messageType:
           type: string
           title: Дискриминатор
@@ -142,9 +145,12 @@ components:
       description: Базовый класс для всех ответов
       allOf:
         - type: object
+          required:
+            - result
           properties:
-            requestId:
+            requestUUID:
               type: string
+              format: uuid
             result:
               type: string
               enum:
@@ -239,9 +245,6 @@ components:
           required:
             - messageUUID
           properties:
-            messageUUID:
-              type: string
-              format: uuid
             debug:
               allOf:
                 - $ref: '#/components/schemas/BaseDebugRequest'
@@ -260,8 +263,6 @@ components:
         - $ref: '#/components/schemas/BaseResponse'
         - type: object
           properties:
-            id:
-              type: string
             payload:
               type: string
 
@@ -275,9 +276,6 @@ components:
             - payload
             - messageUUID
           properties:
-            messageUUID:
-              type: string
-              format: uuid
             payload:
               type: string
             debug:
@@ -298,15 +296,8 @@ components:
         - $ref: '#/components/schemas/BaseMessage'
         - $ref: '#/components/schemas/BaseResponse'
         - type: object
-          required:
-            - payload
-            - messageUUID
-          properties:
-            messageUUID:
-              type: string
-              format: uuid
-            payload:
-              type: string
+
+
 
 
 
@@ -316,9 +307,9 @@ components:
         - $ref: '#/components/schemas/BaseMessage'
         - $ref: '#/components/schemas/BaseRequest'
         - type: object
+          required:
+            - messageUUID
           properties:
-            id:
-              type: string
             debug:
               allOf:
                 - $ref: '#/components/schemas/BaseDebugRequest'
