@@ -20,6 +20,9 @@ dependencyManagement {
     }
 }
 dependencies {
+    implementation(project(":rg-messages-mapping-openapi"))
+    implementation(project(":rg-messages-transport-openapi"))
+
     implementation(kotlin("stdlib"))
     implementation("org.keycloak:keycloak-spring-boot-starter:15.0.1")
     implementation("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
