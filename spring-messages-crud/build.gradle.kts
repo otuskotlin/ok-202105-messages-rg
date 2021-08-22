@@ -1,6 +1,5 @@
 
 plugins {
-
     kotlin("jvm")
     id("org.springframework.boot") version "2.5.2"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
@@ -22,6 +21,7 @@ dependencyManagement {
 dependencies {
     implementation(project(":rg-messages-mapping-openapi"))
     implementation(project(":rg-messages-transport-openapi"))
+    implementation(project(":rg-messages-transport-common"))
 
     implementation(kotlin("stdlib"))
     implementation("org.keycloak:keycloak-spring-boot-starter:15.0.1")

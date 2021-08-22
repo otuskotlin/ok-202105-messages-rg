@@ -1,4 +1,4 @@
-group = "org.example"
+group = "com.messages"
 version = "1.0-SNAPSHOT"
 plugins {
     kotlin("jvm") apply false

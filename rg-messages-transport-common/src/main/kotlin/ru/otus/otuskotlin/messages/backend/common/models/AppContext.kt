@@ -1,6 +1,7 @@
 package ru.otus.otuskotlin.messages.backend.common.models
 
-import org.example.openapi.models.RequestError
+import com.messages.openapi.models.RequestError
+
 import java.util.*
 
 data class AppContext(

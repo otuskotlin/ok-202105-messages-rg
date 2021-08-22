@@ -1,9 +1,6 @@
 package ru.otus.otuskotlin.messages.backend.transport.mapping
 
-import org.example.openapi.models.CreateMessageRequest
-import org.example.openapi.models.DeleteMessageRequest
-import org.example.openapi.models.ReadMessageRequest
-import org.example.openapi.models.UpdateMessageRequest
+import com.messages.openapi.models.*
 import ru.otus.otuskotlin.messages.backend.common.models.AppContext
 import ru.otus.otuskotlin.messages.backend.common.models.MessageModel
 import java.time.OffsetDateTime
@@ -12,6 +9,7 @@ import java.util.*
 
 fun AppContext.setQuery(query: CreateMessageRequest) = apply {
     requestUUID = query.requestUUID ?: UUID.randomUUID()
+    messageUUID = query.messageUUID
     messageModel = query.toModel()
 }
 
@@ -30,7 +28,10 @@ fun AppContext.setQuery(query: DeleteMessageRequest) = apply {
     requestUUID = query.requestUUID ?: UUID.randomUUID()
     messageUUID = query.messageUUID
 }
-
+fun AppContext.setQuery(query: SearchMessageRequest) = apply {
+    requestUUID = query.requestUUID ?: UUID.randomUUID()
+    messageUUID = query.messageUUID
+}
 private fun CreateMessageRequest.toModel() = MessageModel(
     uuid = UUID.randomUUID(),
     updated = OffsetDateTime.now(),

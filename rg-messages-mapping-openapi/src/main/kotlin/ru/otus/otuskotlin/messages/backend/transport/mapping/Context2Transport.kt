@@ -1,9 +1,7 @@
 package ru.otus.otuskotlin.messages.backend.transport.mapping
 
-import org.example.openapi.models.CreateMessageResponse
-import org.example.openapi.models.DeleteMessageResponse
-import org.example.openapi.models.ReadMessageResponse
-import org.example.openapi.models.UpdateMessageResponse
+import com.messages.openapi.models.*
+
 import ru.otus.otuskotlin.messages.backend.common.models.AppContext
 
 
@@ -34,4 +32,12 @@ fun AppContext.toDeleteMessageResponse() = DeleteMessageResponse(
     errors = errors.takeIf { it.isNotEmpty() },
     messageUUID = this.messageUUID,
     result = if (this.errors.isEmpty()) DeleteMessageResponse.Result.SUCCESS else DeleteMessageResponse.Result.ERROR
+)
+
+fun AppContext.toSearchMessageResponse() = SearchMessageResponse(
+    requestUUID = this.requestUUID,
+    errors = errors.takeIf { it.isNotEmpty() },
+    messageUUID = this.messageUUID,
+    foundMessages = listOf(ResponseMessage(this.messageModel?.payload)),
+    result = if (this.errors.isEmpty()) SearchMessageResponse.Result.SUCCESS else SearchMessageResponse.Result.ERROR
 )

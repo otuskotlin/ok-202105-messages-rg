@@ -1,8 +1,7 @@
 package ru.otus.otuskotlin.messages.backend.transport.mapping
 
-import org.example.openapi.models.CreateMessageRequest
-import org.example.openapi.models.CreateMessageResponse
-import org.example.openapi.models.RequestError
+
+import com.messages.openapi.models.*
 import ru.otus.otuskotlin.messages.backend.common.models.AppContext
 import ru.otus.otuskotlin.messages.backend.common.models.MessageModel
 import java.util.*

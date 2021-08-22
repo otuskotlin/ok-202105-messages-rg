@@ -3,11 +3,13 @@ pluginManagement {
     plugins {
         val kotlinVersion: String by settings
         val openApiVersion: String by settings
+        val ktorVersion: String by settings
 
         kotlin("jvm") version kotlinVersion
         kotlin("multiplatform") version kotlinVersion
         kotlin("plugin.serialization") version kotlinVersion
         id("org.openapi.generator") version openApiVersion
+        id( "org.jetbrains.kotlin.plugin.serialization") version kotlinVersion
     }
 }
 include("ok-m1l1")
@@ -21,5 +23,6 @@ include("rg-messages-transport-mp")
 include("rg-messages-transport-openapi")
 include("rg-messages-mapping-openapi")
 include("rg-messages-transport-common")
-include("spring-backend-app")
+include("spring-messages-crud")
+include("ktor-support-crud")
 
