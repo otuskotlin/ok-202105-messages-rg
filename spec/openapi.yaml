@@ -39,10 +39,10 @@ paths:
     post:
       tags:
         - message
-      summary: Получить информацию об объявлении
+      summary: Получить информацию о сообщении
       operationId: readMessage
       requestBody:
-        description: Объект запроса для получения информации об объявлении
+        description: Объект запроса для получения информации о сообщении
         content:
           application/json:
             schema:
@@ -123,6 +123,9 @@ components:
       type: object
       description: Базовый класс как для запросов, так и для ответов
       properties:
+        messageUUID:
+          type: string
+          format: uuid
         messageType:
           type: string
           title: Дискриминатор
@@ -133,19 +136,21 @@ components:
     BaseRequest:
       description: Базовый класс для всех запросов
       properties:
-        requestId:
+        requestUUID:
           type: string
-        payload:
-          type: string
+          format: uuid
+
 
     BaseResponse:
       description: Базовый класс для всех ответов
       allOf:
-        #        - $ref: '#/components/schemas/BaseMessage'
         - type: object
+          required:
+            - result
           properties:
-            requestId:
+            requestUUID:
               type: string
+              format: uuid
             result:
               type: string
               enum:
@@ -165,86 +170,11 @@ components:
         field:
           type: string
 
-    AdVisibility:
-      type: string
-      description: 'Тип видимости объявления. Возможные значения: видит только владелец, только зарегистрированный в системе пользователь, видимо всем'
-      enum:
-        - ownerOnly
-        - registeredOnly
-        - public
-
-    AdDealSide:
-      type: string
-      description: 'Указание на сторону сделки объявления: предложение или потребность'
-      enum:
-        - demand
-        - proposal
-
-    CreateableAd:
-      type: object
-      description: Структура с данными об объявлении для запроса о созадии
-      properties:
-        title:
-          type: string
-          title: Заголовок объявления
-          description: Краткое название объявления
-        description:
-          type: string
-          title: Описание объявления
-          description: Тело объявления с описанием особенностей выставляемой заявки
-        ownerId:
-          type: string
-          title: Идентификатор владельца объявления
-          description: Идентификатор пользователя, который создал и управляет объявлением
-        visibility:
-          $ref: '#/components/schemas/AdVisibility'
-        dealSide:
-          $ref: '#/components/schemas/AdDealSide'
-    ReadAdResponse:
-      description: Структура для ответа на запрос с информацией об объявлении
-      allOf:
-        - $ref: '#/components/schemas/BaseMessage'
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            readAd:
-              $ref: '#/components/schemas/ResponseAd'
-    UpdateableAd:
-      description: Структура для данных об объявлении в запросе на обновление
-      allOf:
-        - $ref: '#/components/schemas/CreateableAd'
-        - type: object
-          properties:
-            id:
-              type: string
-              description: Идентификатор объявления
-
-    ResponseAd:
-      description: Структура, описывающая объявление в ответе
-      allOf:
-        - $ref: '#/components/schemas/UpdateableAd'
-        - type: object
-          properties:
-            permissions:
-              type: array
-              uniqueItems: true
-              items:
-                $ref: '#/components/schemas/AdPermissions'
-
     ResponseMessage:
       description: Структура, описывающая сообщения
       properties:
         payload:
           type: string
-
-
-    AdPermissions:
-      type: string
-      description: Доступы к операциям над объявлением
-      enum:
-        - read
-        - update
-        - contact
 
     BaseDebugRequest:
       type: object
@@ -288,26 +218,15 @@ components:
             - middle
             - last
 
-    InitAdRequest:
-      description: Структура для запроса начального состояния при старте вэб-клиента
-      allOf:
-        - $ref: '#/components/schemas/BaseMessage'
-        - $ref: '#/components/schemas/BaseRequest'
 
     CreateMessageRequest:
       description: Структура для создания сообщения в репоизтории
       allOf:
         - $ref: '#/components/schemas/BaseMessage'
         - $ref: '#/components/schemas/BaseRequest'
+        - $ref: '#/components/schemas/MessageMetaInfo'
 
 
-
-    InitAdResponse:
-      description: Структура для ответа с начальным состоянием при старте вэб-клиента
-      allOf:
-        - $ref: '#/components/schemas/BaseMessage'
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
     CreateMessageResponse:
       description: Структура для ответа с начальным состоянием при старте вэб-клиента
       allOf:
@@ -315,68 +234,17 @@ components:
         - $ref: '#/components/schemas/BaseResponse'
         - type: object
 
-    CreateAdRequest:
-      description: Структура для запроса создания нового объявления
-      allOf:
-        - $ref: '#/components/schemas/BaseMessage'
-        - $ref: '#/components/schemas/BaseRequest'
-        - type: object
-          properties:
-            createAd:
-              $ref: '#/components/schemas/CreateableAd'
-            debug:
-              allOf:
-                - $ref: '#/components/schemas/BaseDebugRequest'
-                - type: object
-                  properties:
-                    stub:
-                      type: string
-                      enum:
-                        - success
-                        - emptyTitle
-                        - databaseError
 
-    CreateAdResponse:
-      description: Структура для ответа на запрос о создании объявления
-      allOf:
-        - $ref: '#/components/schemas/BaseMessage'
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            createdAd:
-              $ref: '#/components/schemas/ResponseAd'
-
-
-
-    ReadAdRequest:
-      description: Структура для получения объявления
-      allOf:
-        - $ref: '#/components/schemas/BaseMessage'
-        - $ref: '#/components/schemas/BaseRequest'
-        - type: object
-          properties:
-            readAdId:
-              type: string
-            debug:
-              allOf:
-                - $ref: '#/components/schemas/BaseDebugRequest'
-                - type: object
-                  properties:
-                    stub:
-                      type: string
-                      enum:
-                        - success
-                        - emptyId
-                        - databaseError
     ReadMessageRequest:
+
       description: Структура для получения объявления
       allOf:
         - $ref: '#/components/schemas/BaseMessage'
         - $ref: '#/components/schemas/BaseRequest'
         - type: object
+          required:
+            - messageUUID
           properties:
-            Id:
-              type: string
             debug:
               allOf:
                 - $ref: '#/components/schemas/BaseDebugRequest'
@@ -395,8 +263,6 @@ components:
         - $ref: '#/components/schemas/BaseResponse'
         - type: object
           properties:
-            id:
-              type: string
             payload:
               type: string
 
@@ -406,11 +272,10 @@ components:
         - $ref: '#/components/schemas/BaseMessage'
         - $ref: '#/components/schemas/BaseRequest'
         - type: object
+          required:
+            - payload
+            - messageUUID
           properties:
-            createMessage:
-              type: string
-            id:
-              type: string
             payload:
               type: string
             debug:
@@ -431,9 +296,9 @@ components:
         - $ref: '#/components/schemas/BaseMessage'
         - $ref: '#/components/schemas/BaseResponse'
         - type: object
-          properties:
-            payload:
-              type: string
+
+
+
 
 
     DeleteMessageRequest:
@@ -442,9 +307,9 @@ components:
         - $ref: '#/components/schemas/BaseMessage'
         - $ref: '#/components/schemas/BaseRequest'
         - type: object
+          required:
+            - messageUUID
           properties:
-            id:
-              type: string
             debug:
               allOf:
                 - $ref: '#/components/schemas/BaseDebugRequest'
@@ -476,6 +341,30 @@ components:
           properties:
             page:
               $ref: '#/components/schemas/BasePaginatedRequest'
+    MessageMetaInfo:
+      description: мета-инфомация для сообщения
+      type: object
+      properties:
+        parentUuid:
+          description: сообщение родитель
+          type: string
+          format: uuid
+        payload:
+          description: текст сообщения
+          type: string
+        from:
+          description: uuid клиента или техподдержки (Кто отправитель ?)
+          type: string
+          format: uuid
+        to:
+          description: uuid клиента или техподдержки (Кто получатель ?)
+          type: string
+          format: uuid
+      required:
+        - payload
+        - from
+        - to
+
 
     SearchMessageResponse:
       description: Структура для ответа на запрос поиска объявлений
@@ -486,44 +375,8 @@ components:
           properties:
             page:
               $ref: '#/components/schemas/BasePaginatedResponse'
-            foundAds:
+            foundMessages:
               type: array
               items:
                 $ref: '#/components/schemas/ResponseMessage'
 
-    OffersAdRequest:
-      description: Структура для запроса поиска предложений для объявления
-      allOf:
-        - $ref: '#/components/schemas/BaseMessage'
-        - $ref: '#/components/schemas/BaseRequest'
-        - type: object
-          properties:
-            page:
-              $ref: '#/components/schemas/BasePaginatedRequest'
-            deleteAdId:
-              type: string
-            debug:
-              allOf:
-                - $ref: '#/components/schemas/BaseDebugRequest'
-                - type: object
-                  properties:
-                    stub:
-                      type: string
-                      enum:
-                        - success
-                        - emptyId
-                        - databaseError
-
-    OffersAdResponse:
-      description: Структура для ответа на запрос поиска предложений для объявления
-      allOf:
-        - $ref: '#/components/schemas/BaseMessage'
-        - $ref: '#/components/schemas/BaseResponse'
-        - type: object
-          properties:
-            page:
-              $ref: '#/components/schemas/BasePaginatedResponse'
-            offeredAds:
-              type: array
-              items:
-                $ref: '#/components/schemas/ResponseAd'

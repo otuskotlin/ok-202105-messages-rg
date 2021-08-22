@@ -1,4 +1,4 @@
-package ru.otus.otuskotlin.marketplace.backend.common.context
+package ru.otus.otuskotlin.messages.backend.common.context
 
 enum class CorStatus {
     STARTED,
