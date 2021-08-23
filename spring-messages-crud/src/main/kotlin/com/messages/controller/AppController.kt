@@ -2,18 +2,25 @@ package com.messages.controller
 
 import com.messages.openapi.models.*
 import com.messages.service.AppService
+import org.springframework.http.MediaType
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-@RestController("/messages")
+@RestController
+@RequestMapping("/messages")
 class AppController(
     private val appService: AppService
 ) {
 
-    @PostMapping("/create")
+    @PostMapping(
+        path = ["/create"],
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
     fun createMessage(@RequestBody createMessageRequest: CreateMessageRequest): CreateMessageResponse {
 
         return appService.createHandler(createMessageRequest)
