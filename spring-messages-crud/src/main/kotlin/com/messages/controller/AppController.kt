@@ -5,10 +5,7 @@ import com.messages.service.AppService
 import org.springframework.http.MediaType
 
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/messages")
@@ -21,33 +18,47 @@ class AppController(
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
-    fun createMessage(@RequestBody createMessageRequest: CreateMessageRequest): CreateMessageResponse {
+    fun createMessage(@RequestBody createMessageRequest: CreateMessageRequest): ResponseEntity<CreateMessageResponse> {
 
-        return appService.createHandler(createMessageRequest)
+        return ResponseEntity.ok(appService.createHandler(createMessageRequest))
     }
 
-    @PostMapping("/read")
-    fun readMessage(@RequestBody readMessageRequest: ReadMessageRequest): ReadMessageResponse {
+    @PostMapping(
+        path = ["/read"],
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
+    fun readMessage(@RequestBody readMessageRequest: ReadMessageRequest): ResponseEntity<ReadMessageResponse> {
 
-        return appService.readHandler(readMessageRequest)
+        return ResponseEntity.ok(appService.readHandler(readMessageRequest))
     }
 
-    @PostMapping("/update")
-    fun updateMessage(@RequestBody updateMessageRequest: ReadMessageRequest): ResponseEntity<String>? {
-        appService.updateHandler(updateMessageRequest)
-        return ResponseEntity.ok("Message updated")
+    @PutMapping(
+        path = ["/update"],
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
+    fun updateMessage(@RequestBody updateMessageRequest: ReadMessageRequest): ResponseEntity<UpdateMessageResponse> {
+
+        return ResponseEntity.ok(appService.updateHandler(updateMessageRequest))
     }
 
-    @PostMapping("/delete")
-    fun deleteMessage(@RequestBody deleteMessageRequest: DeleteMessageRequest): ResponseEntity<String>? {
-        appService.deleteHandler(deleteMessageRequest)
-        return ResponseEntity.ok("Message deleted")
+    @DeleteMapping(path = ["/delete"],
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+        )
+    fun deleteMessage(@RequestBody deleteMessageRequest: DeleteMessageRequest): ResponseEntity<DeleteMessageResponse> {
+
+        return ResponseEntity.ok(appService.deleteHandler(deleteMessageRequest))
     }
 
-    @PostMapping("/search")
-    fun searchMessage(@RequestBody searchMessageRequest: SearchMessageRequest): ResponseEntity<String>? {
-        appService.searchHandler(searchMessageRequest)
-        return ResponseEntity.ok("Message was found")
+    @PostMapping(path = ["/search"],
+        consumes = [MediaType.APPLICATION_JSON_VALUE],
+        produces = [MediaType.APPLICATION_JSON_VALUE]
+    )
+    fun searchMessage(@RequestBody searchMessageRequest: SearchMessageRequest): ResponseEntity<SearchMessageResponse> {
+
+        return ResponseEntity.ok(appService.searchHandler(searchMessageRequest))
     }
 
 }
