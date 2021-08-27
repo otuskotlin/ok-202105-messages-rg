@@ -19,7 +19,6 @@ supports :
     uuid
     name
     email
-    password
     created
     updated
 

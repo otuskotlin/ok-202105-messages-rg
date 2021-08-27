@@ -39,4 +39,5 @@ include("rg-messages-mapping-openapi")
 include("rg-messages-transport-common")
 include("spring-messages-crud")
 include("ktor-support-crud")
+include("support-crud-transport")
 

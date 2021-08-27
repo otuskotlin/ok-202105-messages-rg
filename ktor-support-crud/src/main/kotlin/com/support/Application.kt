@@ -2,7 +2,9 @@ package com.support
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import com.support.configuration.SpringConfiguration
 import com.support.controller.registerSupportRoute
+import com.support.service.SupportService
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.auth.jwt.*
@@ -13,7 +15,10 @@ import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.server.netty.*
 import kotlinx.serialization.Serializable
+import org.springframework.context.ApplicationContext
+import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import java.util.*
+
 
 @Serializable
 data class User(val username: String, val password: String)
@@ -23,7 +28,8 @@ fun main(args: Array<String>): Unit {
 }
 
 fun Application.module() {
-
+    val context: ApplicationContext = AnnotationConfigApplicationContext(SpringConfiguration::class.java)
+    val supportService: SupportService = context.getBean(SupportService::class.java)
     install(ContentNegotiation) {
         json()
     }
@@ -69,7 +75,7 @@ fun Application.module() {
                 val expiresAt = principal.expiresAt?.time?.minus(System.currentTimeMillis())
                 call.respondText("Hello, $username! Token is expired at $expiresAt ms.")
             }
-            registerSupportRoute()
+            registerSupportRoute(supportService)
         }
     }
 }

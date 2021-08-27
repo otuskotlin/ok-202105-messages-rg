@@ -1,6 +1,8 @@
 plugins {
     kotlin("jvm")
     id("java")
+    id("org.springframework.boot") version "2.5.2"
+    id("io.spring.dependency-management") version "1.0.11.RELEASE"
     id("org.jetbrains.kotlin.plugin.serialization")
 }
 
@@ -33,15 +35,13 @@ buildscript {
     }
 }
 dependencies {
-    implementation(project(":rg-messages-mapping-openapi"))
-    implementation(project(":rg-messages-transport-openapi"))
-    implementation(project(":rg-messages-transport-common"))
+    implementation(project(":support-crud-transport"))
 
     implementation(kotlin("stdlib"))
     implementation("com.h2database:h2:1.4.200")
 
     testImplementation(kotlin("test-junit"))
-    implementation("org.kodein.di:kodein-di-framework-ktor-server-jvm:7.6.0")
+    implementation ("org.springframework.boot:spring-boot-starter-web")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
     implementation("io.ktor:ktor-auth:$ktorVersion")
     implementation("io.ktor:ktor-auth-jwt:$ktorVersion")
