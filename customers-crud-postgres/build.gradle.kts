@@ -16,8 +16,10 @@ repositories {
 }
 
 dependencies {
+    val ehcacheVersion: String by project
+    implementation ("org.springframework.boot:spring-boot-starter-actuator")
     implementation(kotlin("stdlib"))
-    implementation("com.h2database:h2:1.4.200")
+    implementation("org.ehcache:ehcache:$ehcacheVersion")
     implementation ("org.springframework.boot:spring-boot-starter-actuator")
     implementation ("org.springframework.boot:spring-boot-starter-web")
     testImplementation ("org.springframework.boot:spring-boot-starter-test")
