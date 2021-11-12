@@ -40,5 +40,5 @@ include("rg-messages-transport-common")
 include("spring-messages-crud")
 include("ktor-support-crud")
 include("support-crud-transport")
-include("customers-crud")
+include("customers-crud-postgres")
 
