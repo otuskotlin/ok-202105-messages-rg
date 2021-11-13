@@ -1,0 +1,99 @@
+openapi: 3.0.1
+info:
+  title: customer-crud
+  description: 'customer-crud-проект - это проект для работы с сущностью customer'
+  license:
+    name: MIT open source license
+    url: https://github.com/otuskotlin/202105-otuskotlin-marketplace/blob/main/LICENSE
+  version: 0.0.1
+servers:
+  - url: https://localhost/
+tags:
+  - name: customer-crud
+    description: CRUDS для customer
+  - name: customer
+    description: создание, обновление, чтение, удаление и поиск customer
+paths:
+  /customer:
+    post:
+      tags:
+        - customer
+      summary: создать customer
+      operationId: createCustomer
+      requestBody:
+        description: Объект запроса для создания customer
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerCommandRequest'
+        required: true
+      responses:
+        200:
+          description: all responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerCommandResponse'
+
+components:
+  schemas:
+    CustomerCommandRequest:
+      description: мета-инфомация для сообщения
+      type: object
+      properties:
+        id:
+          description: сообщение родитель
+          type: string
+          format: uuid
+        name:
+          description: текст сообщения
+          type: string
+        email:
+          description: текст сообщения
+          type: string
+        password:
+          description: текст сообщения
+          type: string
+          minLength: 8
+          maxLength: 9
+        created:
+          description: текст сообщения
+          type: string
+          format: date-time
+        updated:
+          description: текст сообщения
+          type: string
+          format: date-time
+      required:
+        - email
+
+    CustomerCommandResponse:
+      description: мета-инфомация для сообщения
+      type: object
+      properties:
+        id:
+          description: сообщение родитель
+          type: string
+          format: uuid
+        name:
+          description: текст сообщения
+          type: string
+        email:
+          description: текст сообщения
+          type: string
+        password:
+          description: текст сообщения
+          type: string
+        created:
+          description: текст сообщения
+          type: string
+          format: date-time
+        updated:
+          description: текст сообщения
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - email
+        - password

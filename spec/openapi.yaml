@@ -14,6 +14,26 @@ tags:
   - name: offers
     description: создание, обновление, чтение, удаление и поиск сообщений
 paths:
+  /customer:
+    post:
+      tags:
+        - customer
+      summary: создать customer
+      operationId: createCustomer
+      requestBody:
+        description: Объект запроса для создания customer
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMessageRequest'
+        required: true
+      responses:
+        200:
+          description: all responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateMessageResponse'
   /messages/create:
     post:
       tags:
@@ -223,6 +243,12 @@ components:
       description: Структура для создания сообщения в репоизтории
       allOf:
         - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - $ref: '#/components/schemas/MessageMetaInfo'
+
+    CreateCustomerRequest:
+      description: Структура для создания customer
+      allOf:
         - $ref: '#/components/schemas/BaseRequest'
         - $ref: '#/components/schemas/MessageMetaInfo'
 
