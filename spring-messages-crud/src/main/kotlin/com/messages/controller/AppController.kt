@@ -38,7 +38,7 @@ class AppController(
         consumes = [MediaType.APPLICATION_JSON_VALUE],
         produces = [MediaType.APPLICATION_JSON_VALUE]
     )
-    fun updateMessage(@RequestBody updateMessageRequest: ReadMessageRequest): ResponseEntity<UpdateMessageResponse> {
+    fun updateMessage(@RequestBody updateMessageRequest: UpdateMessageRequest): ResponseEntity<UpdateMessageResponse> {
 
         return ResponseEntity.ok(appService.updateHandler(updateMessageRequest))
     }

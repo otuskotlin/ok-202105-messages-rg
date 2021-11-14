@@ -22,7 +22,7 @@ class AppService(
         return context.toCreateMessageResponse()
     }
 
-    fun updateHandler(updateMessageRequest: ReadMessageRequest): UpdateMessageResponse {
+    fun updateHandler(updateMessageRequest: UpdateMessageRequest): UpdateMessageResponse {
         val context = AppContext()
         context.setQuery(updateMessageRequest)
         appRepository.save(context.toMessageRecord())
@@ -32,7 +32,7 @@ class AppService(
     fun deleteHandler(deleteMessageRequest: DeleteMessageRequest): DeleteMessageResponse {
         val appContext = AppContext()
         appContext.setQuery(deleteMessageRequest)
-        appRepository.deleteById(appContext.messageModel?.uuid?:throw Exception("wrong messageUuid"))
+        appRepository.deleteById(appContext.messageUUID?:throw Exception("wrong messageUuid"))
         return appContext.toDeleteMessageResponse()
     }
 
