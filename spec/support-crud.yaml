@@ -1,0 +1,402 @@
+openapi: 3.0.1
+info:
+  title: support-crud
+  description: 'Messages-проект - это проект для работы с сущностью messages'
+  license:
+    name: MIT open source license
+    url: https://github.com/otuskotlin/202105-otuskotlin-marketplace/blob/main/LICENSE
+  version: 0.0.1
+servers:
+  - url: https://localhost/
+tags:
+  - name: support-crud
+    description: CRUDS для тех.поддержки
+  - name: supports
+    description: создание, обновление, чтение, удаление и поиск сотрудников техподдержки
+paths:
+  /support/create:
+    post:
+      tags:
+        - support
+      summary: создать юнита тех поддержки
+      operationId: createSupport
+      requestBody:
+        description: Объект запроса для создания юнита
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSupportRequest'
+        required: true
+      responses:
+        200:
+          description: all responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateSupportResponse'
+
+  /support/read:
+    post:
+      tags:
+        - support
+      summary: Получить информацию о юните
+      operationId: readSupport
+      requestBody:
+        description: Объект запроса для получения информации о юните
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadSupportRequest'
+        required: true
+      responses:
+        200:
+          description: all responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadSupportResponse'
+  /support/update:
+    post:
+      tags:
+        - support
+      summary: Обновить юнита
+      operationId: updateSupport
+      requestBody:
+        description: Объект запроса для обновления объявления
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSupportRequest'
+        required: true
+      responses:
+        200:
+          description: all responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateSupportResponse'
+  /support/delete:
+    post:
+      tags:
+        - support
+      summary: Удалить юнита
+      operationId: deleteSupport
+      requestBody:
+        description: Объект запроса для удаления юнита
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteSupportRequest'
+        required: true
+      responses:
+        200:
+          description: all responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteSupportResponse'
+  /support/search:
+    post:
+      tags:
+        - support
+      summary: Поиск юнитов
+      operationId: searchAd
+      requestBody:
+        description: Объект запроса для поиска юнитов
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchSupportRequest'
+        required: true
+      responses:
+        200:
+          description: all responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchSupportResponse'
+
+components:
+  schemas:
+
+    BaseMessage:
+      type: object
+      description: Базовый класс для запросов и  ответов
+      properties:
+        messageUUID:
+          type: string
+          format: uuid
+        messageType:
+          type: string
+          title: Дискриминатор
+          description: Дискриминатор, содержащий тип класса сообщения и использующийся для десериализации
+      discriminator:
+        propertyName: messageType
+
+    BaseRequest:
+      description: Базовый класс для всех запросов
+      properties:
+        requestUUID:
+          type: string
+          format: uuid
+
+
+    BaseResponse:
+      description: Базовый класс для всех ответов
+      allOf:
+        - type: object
+          required:
+            - result
+          properties:
+            requestUUID:
+              type: string
+              format: uuid
+            result:
+              type: string
+              enum:
+                - success
+                - error
+            errors:
+              type: array
+              items:
+                $ref: '#/components/schemas/RequestError'
+
+    RequestError:
+      type: object
+      description: Описание ошибки обработки запроса
+      properties:
+        message:
+          type: string
+        field:
+          type: string
+
+    ResponseMessage:
+      description: Структура, описывающая сообщения
+      properties:
+        payload:
+          type: string
+
+    BaseDebugRequest:
+      type: object
+      description: Структура с описанием отладочных параметров запроса
+      properties:
+        mode:
+          type: string
+          default: prod
+          enum:
+            - prod
+            - test
+            - stub
+
+    BasePaginatedRequest:
+      type: object
+      description: Структура с описанием запрашиваемой страницы в запросах списков
+      properties:
+        size:
+          type: integer
+          description: Размер запрашиваемой страницы
+          format: int32
+        lastId:
+          type: string
+          description: Идентификатор последнего объекта предыдущей страницы
+
+    BasePaginatedResponse:
+      type: object
+      description: Структура с описанием страницы в ответе
+      properties:
+        size:
+          type: integer
+          description: Размер запрашиваемой страницы
+          format: int32
+        lastId:
+          type: string
+          description: Идентификатор последнего объекта предыдущей страницы
+        position:
+          type: string
+          enum:
+            - first
+            - middle
+            - last
+
+
+    CreateSupportRequest:
+      description: Структура для создания юнита в репоизтории
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - $ref: '#/components/schemas/SupportMetaInfo'
+
+
+
+    CreateSupportResponse:
+      description: Структура для ответа после создания юнита
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+
+
+    ReadSupportRequest:
+      description: Структура для получения юнита
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          required:
+            - messageUUID
+          properties:
+            debug:
+              allOf:
+                - $ref: '#/components/schemas/BaseDebugRequest'
+                - type: object
+                  properties:
+                    stub:
+                      type: string
+                      enum:
+                        - success
+                        - emptyId
+                        - databaseError
+    ReadSupportResponse:
+      description: Структура для ответа на запрос с информацией о юните
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            payload:
+              type: string
+
+    UpdateSupportRequest:
+      description: Структура для запроса обновления существующего юнита
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - $ref: '#/components/schemas/SupportMetaInfo'
+        - type: object
+          required:
+            - uuid
+            - payload
+            - messageUUID
+          properties:
+            payload:
+              type: string
+            debug:
+              allOf:
+                - $ref: '#/components/schemas/BaseDebugRequest'
+                - type: object
+                  properties:
+                    stub:
+                      type: string
+                      enum:
+                        - success
+                        - emptyTitle
+                        - databaseError
+
+    UpdateSupportResponse:
+      description: Структура для ответа на запрос с информацией о юните
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+
+    DeleteSupportRequest:
+      description: Структура для запроса удаления юнита
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          required:
+            - messageUUID
+            - supportUUID
+          properties:
+            supportUUID:
+              type: string
+              format: uuid
+            debug:
+              allOf:
+                - $ref: '#/components/schemas/BaseDebugRequest'
+                - type: object
+                  properties:
+                    stub:
+                      type: string
+                      enum:
+                        - success
+                        - emptyId
+                        - databaseError
+
+
+
+    DeleteSupportResponse:
+      description: Структура для ответа на запрос об удалении юнита
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            payload:
+              type: string
+
+    SearchSupportRequest:
+      description: Структура для запроса поиска юнитов
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseRequest'
+        - type: object
+          properties:
+            page:
+              $ref: '#/components/schemas/BasePaginatedRequest'
+    MessageMetaInfo:
+      description: мета-инфомация для сообщения
+      type: object
+      properties:
+        parentUuid:
+          description: сообщение родитель
+          type: string
+          format: uuid
+        payload:
+          description: текст сообщения
+          type: string
+        from:
+          description: uuid клиента или техподдержки (Кто отправитель ?)
+          type: string
+          format: uuid
+        to:
+          description: uuid клиента или техподдержки (Кто получатель ?)
+          type: string
+          format: uuid
+      required:
+        - payload
+        - from
+        - to
+
+    SupportMetaInfo:
+      description: мета-инфомация для юнита
+      type: object
+      properties:
+        uuid:
+          description: идентификатор юнита
+          type: string
+          format: uuid
+        name:
+          description: имя юнита
+          type: string
+        email:
+          description: email юнита
+          type: string
+      required:
+        - name
+        - email
+    SearchSupportResponse:
+      description: Структура для ответа на запрос поиска юнитов
+      allOf:
+        - $ref: '#/components/schemas/BaseMessage'
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            page:
+              $ref: '#/components/schemas/BasePaginatedResponse'
+            foundMessages:
+              type: array
+              items:
+                $ref: '#/components/schemas/ResponseMessage'
+
