@@ -12,3 +12,9 @@ client_id : demo-app
 grant_type: password
 username: test
 password: test
+
+
+локальный старт проекта messages-crud
+
+1. docker-compose up (Стартует базу)
+2. Можно запускать приложение gradle bootRun
