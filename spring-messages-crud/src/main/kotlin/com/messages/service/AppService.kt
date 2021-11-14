@@ -1,5 +1,6 @@
 package com.messages.service
 
+import com.messages.mapper.setMessageRecord
 import com.messages.mapper.toMessageRecord
 import com.messages.openapi.models.*
 import com.messages.repository.AppRepository
@@ -36,11 +37,19 @@ class AppService(
     }
 
     fun searchHandler(searchMessageRequest: SearchMessageRequest): SearchMessageResponse {
-        return AppContext().setQuery(searchMessageRequest).toSearchMessageResponse()
+        val context = AppContext()
+        val message = appRepository.getById(searchMessageRequest.messageUUID?:throw Exception("wrong messageUuid"))
+        context.setQuery(searchMessageRequest)
+        context.setMessageRecord(message)
+        return context.toSearchMessageResponse()
     }
 
     fun readHandler(readMessageRequest: ReadMessageRequest): ReadMessageResponse {
-        return AppContext().setQuery(readMessageRequest).toReadMessageResponse()
+        val context = AppContext()
+        val message = appRepository.getById(readMessageRequest.messageUUID)
+        context.setMessageRecord(message)
+        context.setQuery(readMessageRequest)
+        return context.toReadMessageResponse()
     }
 
 }

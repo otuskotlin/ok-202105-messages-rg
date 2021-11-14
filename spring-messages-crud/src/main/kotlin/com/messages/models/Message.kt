@@ -14,9 +14,9 @@ data class Message(
     @Column(name = "parent_uuid", columnDefinition = "BINARY(16)")
     var parentUuid: UUID? = null,
     var payload: String? = null,
-    @Column(name = "from", columnDefinition = "BINARY(16)")
+    @Column(name = "from_id", columnDefinition = "BINARY(16)")
     var from: UUID? = null,
-    @Column(name = "to", columnDefinition = "BINARY(16)")
+    @Column(name = "to_id", columnDefinition = "BINARY(16)")
     var to: UUID? = null,
     var created: OffsetDateTime? = null,
     var updated: OffsetDateTime? = null
