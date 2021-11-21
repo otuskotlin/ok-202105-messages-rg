@@ -1,9 +1,15 @@
 plugins {
     kotlin("jvm")
     id("java")
-    id("org.springframework.boot")
-    kotlin("plugin.serialization")
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("org.jetbrains.kotlin.plugin.serialization")
+}
+
+
+
+sourceSets {
+    main {
+        java.srcDir("$buildDir/generate-resources/main/src/main/kotlin")
+    }
 }
 
 val springBootVersion: String by project
@@ -26,7 +32,6 @@ buildscript {
         jcenter()
         mavenCentral()
         mavenLocal()
-        maven("https://kotlin.bintray.com/ktor")
     }
 
     dependencies {
@@ -35,19 +40,17 @@ buildscript {
     }
 }
 dependencies {
-    val kotlinVersion:String by project
-    implementation(project(":support-crud-transport"))
-    implementation(project(":cor-library"))
+    val jacksonVersion: String by project
+    val coroutinesVersion:String by project
 
     implementation(kotlin("stdlib"))
-    implementation("com.h2database:h2:1.4.200")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
 
     testImplementation(kotlin("test-junit"))
-    implementation ("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
-    implementation("io.ktor:ktor-server-netty:$ktorVersion")
-    implementation("io.ktor:ktor-auth:$ktorVersion")
-    implementation("io.ktor:ktor-auth-jwt:$ktorVersion")
-    implementation("io.ktor:ktor-serialization:$ktorVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
+    /**
+     * Зависимости ниже мы забрали из сгенерированного build.gradle. Они нужны для компиляции подпроекта
+     */
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
 }

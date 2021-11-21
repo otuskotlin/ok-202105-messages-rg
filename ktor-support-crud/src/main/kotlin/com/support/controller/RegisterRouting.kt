@@ -1,6 +1,7 @@
 package com.support.controller
-
-import com.messages.support.openapi.models.*
+import com.messages.support.openapi.models.DeleteSupportRequest
+import com.messages.support.openapi.models.ReadSupportRequest
+import com.messages.support.openapi.models.UpdateSupportRequest
 import com.support.service.SupportService
 import io.ktor.application.*
 import io.ktor.request.*
@@ -11,7 +12,7 @@ fun Route.registerSupportRoute(supportService: SupportService) {
 
     route("/support") {
         post("/create") {
-            val support = call.receive<CreateSupportRequest>()
+            val support = call.receive<String>()
             call.respond(supportService.createSupport(support))
         }
         put("/update") {
@@ -31,3 +32,4 @@ fun Route.registerSupportRoute(supportService: SupportService) {
         }
     }
 }
+

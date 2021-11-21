@@ -3,7 +3,8 @@ pluginManagement {
     plugins {
         val kotlinVersion: String by settings
         val openApiVersion: String by settings
-
+        val springBootVersion:String by settings
+        id("org.springframework.boot") version springBootVersion
         kotlin("jvm") version kotlinVersion
         kotlin("multiplatform") version kotlinVersion
         kotlin("plugin.serialization") version kotlinVersion
@@ -41,4 +42,5 @@ include("spring-messages-crud")
 include("ktor-support-crud")
 include("support-crud-transport")
 include("customers-crud-in-memory")
+include("cor-library")
 

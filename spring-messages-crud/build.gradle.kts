@@ -3,7 +3,7 @@ plugins {
     kotlin("jvm")
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     id("java")
-    id("org.springframework.boot") version "2.5.4"
+    id("org.springframework.boot") version "2.5.6"
     id("org.flywaydb.flyway") version "7.14.1"
     kotlin("plugin.spring") version "1.5.21"
 }
@@ -24,7 +24,7 @@ dependencies {
     implementation(project(":rg-messages-transport-common"))
 
     implementation(kotlin("stdlib"))
-    implementation ("org.springframework.boot:spring-boot-starter-actuator")
+    implementation ("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
 
     implementation("org.hibernate:hibernate-core:5.5.7.Final")
     implementation("org.springframework.boot:spring-boot-starter:$springBootVersion")
@@ -32,7 +32,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
     implementation("org.flywaydb:flyway-core")
     implementation("org.postgresql:postgresql:$postgresDriverVersion")
-    implementation ("org.springframework.boot:spring-boot-starter-web")
+    implementation ("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
     //test
     testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testImplementation(kotlin("test-junit"))

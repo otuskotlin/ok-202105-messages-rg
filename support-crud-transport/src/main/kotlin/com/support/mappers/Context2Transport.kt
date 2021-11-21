@@ -2,6 +2,7 @@ package com.support.mappers
 
 import com.messages.support.openapi.models.*
 import com.support.models.*
+import com.support.toJson
 
 
 fun ReadContext.toReadSupportResponse() = ReadSupportResponse(
@@ -14,7 +15,7 @@ fun CreateContext.toCreateSupportResponse() = CreateSupportResponse(
     requestUUID = this.requestUUID,
     errors = errors.takeIf { it.isNotEmpty() },
     result = if (this.errors.isEmpty()) CreateSupportResponse.Result.SUCCESS else CreateSupportResponse.Result.ERROR
-)
+).toJson()
 
 fun UpdateContext.toUpdateSupportResponse() = UpdateSupportResponse(
     requestUUID = this.requestUUID,
