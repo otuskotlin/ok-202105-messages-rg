@@ -33,11 +33,6 @@ openApiGenerate {
         "serializationLibrary" to "jackson",
         "collectionType" to "list"
     ))
-
-    /**
-     * Так генерируется KMP версия
-     */
-//    library.set("multiplatform")
 }
 
 /**

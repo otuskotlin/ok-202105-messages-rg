@@ -1,6 +1,9 @@
 package com.messages.service
 
+import com.messages.mapper.setMessageRecord
+import com.messages.mapper.toMessageRecord
 import com.messages.openapi.models.*
+import com.messages.repository.AppRepository
 
 import org.springframework.stereotype.Service
 import ru.otus.otuskotlin.messages.backend.common.models.AppContext
@@ -8,26 +11,45 @@ import ru.otus.otuskotlin.messages.backend.transport.mapping.*
 
 
 @Service
-class AppService {
+class AppService(
+    var appRepository: AppRepository
+) {
 
     fun createHandler(createMessageRequest: CreateMessageRequest): CreateMessageResponse {
-        return AppContext().setQuery(createMessageRequest).toCreateMessageResponse()
+        val context = AppContext()
+        context.setQuery(createMessageRequest)
+        appRepository.save(context.toMessageRecord())
+        return context.toCreateMessageResponse()
     }
 
-    fun updateHandler(updateMessageRequest: ReadMessageRequest): UpdateMessageResponse {
-        return AppContext().setQuery(updateMessageRequest).toUpdateMessageResponse()
+    fun updateHandler(updateMessageRequest: UpdateMessageRequest): UpdateMessageResponse {
+        val context = AppContext()
+        context.setQuery(updateMessageRequest)
+        appRepository.save(context.toMessageRecord())
+        return context.toUpdateMessageResponse()
     }
 
     fun deleteHandler(deleteMessageRequest: DeleteMessageRequest): DeleteMessageResponse {
-        return AppContext().setQuery(deleteMessageRequest).toDeleteMessageResponse()
+        val appContext = AppContext()
+        appContext.setQuery(deleteMessageRequest)
+        appRepository.deleteById(appContext.messageUUID?:throw Exception("wrong messageUuid"))
+        return appContext.toDeleteMessageResponse()
     }
 
     fun searchHandler(searchMessageRequest: SearchMessageRequest): SearchMessageResponse {
-        return AppContext().setQuery(searchMessageRequest).toSearchMessageResponse()
+        val context = AppContext()
+        val message = appRepository.getById(searchMessageRequest.messageUUID?:throw Exception("wrong messageUuid"))
+        context.setQuery(searchMessageRequest)
+        context.setMessageRecord(message)
+        return context.toSearchMessageResponse()
     }
 
     fun readHandler(readMessageRequest: ReadMessageRequest): ReadMessageResponse {
-        return AppContext().setQuery(readMessageRequest).toReadMessageResponse()
+        val context = AppContext()
+        val message = appRepository.getById(readMessageRequest.messageUUID)
+        context.setMessageRecord(message)
+        context.setQuery(readMessageRequest)
+        return context.toReadMessageResponse()
     }
 
 }
