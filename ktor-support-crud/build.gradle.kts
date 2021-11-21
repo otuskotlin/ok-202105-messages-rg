@@ -36,6 +36,7 @@ buildscript {
 }
 dependencies {
     val kotlinVersion:String by project
+    val coroutinesVersion:String by project
     implementation(project(":support-crud-transport"))
     implementation(project(":cor-library"))
 
@@ -43,11 +44,16 @@ dependencies {
     implementation("com.h2database:h2:1.4.200")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
 
-    testImplementation(kotlin("test-junit"))
     implementation ("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
     implementation("io.ktor:ktor-auth:$ktorVersion")
     implementation("io.ktor:ktor-auth-jwt:$ktorVersion")
     implementation("io.ktor:ktor-serialization:$ktorVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
+    testImplementation(kotlin("test-junit"))
+    testImplementation ("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+}
+tasks.test {
+    useJUnitPlatform()
 }
