@@ -2,14 +2,14 @@ plugins {
     kotlin("jvm")
     id("java")
     id("org.openapi.generator")
-    id("org.jetbrains.kotlin.plugin.serialization")
+    kotlin("plugin.serialization")
 }
 /**
  * Настраиваем генерацию здесь
  */
 openApiGenerate {
     val openapiGroup = "${rootProject.group}.support.openapi"
-    generatorName.set("kotlin") // Это и есть активный генератор
+    generatorName.set("kotlin-server") // Это и есть активный генератор
     packageName.set(openapiGroup)
     apiPackage.set("$openapiGroup.api")
     modelPackage.set("$openapiGroup.models")
@@ -23,11 +23,6 @@ openApiGenerate {
         put("models", "")
         put("modelDocs", "false")
     }
-
-    /**
-     * Настройка дополнительных параметров из документации по генератору
-     * https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/kotlin.md
-     */
     configOptions.set(mapOf(
         "dateLibrary" to "string",
         "enumPropertyNaming" to "UPPERCASE",
@@ -62,6 +57,7 @@ repositories {
 buildscript {
     val kotlinVersion: String by project
     repositories {
+        maven { setUrl("https://dl.bintray.com/kotlin/ktor") }
         jcenter()
         mavenCentral()
         mavenLocal()
@@ -75,9 +71,9 @@ buildscript {
 dependencies {
     val jacksonVersion: String by project
     implementation(kotlin("stdlib"))
-
+    implementation("io.ktor:ktor-serialization:$ktorVersion")
     testImplementation(kotlin("test-junit"))
-
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     /**
      * Зависимости ниже мы забрали из сгенерированного build.gradle. Они нужны для компиляции подпроекта

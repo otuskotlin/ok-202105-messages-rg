@@ -1,13 +1,14 @@
 package com.support.mappers
 
 import com.messages.support.openapi.models.*
+import com.messages.support.openapi.models.CreateSupportRequest
 import com.support.models.*
 import java.time.OffsetDateTime
 import java.util.*
 
-fun CreateContext.setQuery(query: CreateSupportRequest) = apply {
-    requestUUID = query.requestUUID ?: java.util.UUID.randomUUID()
-    supportModel = query.toModel()
+fun CreateContext.setQuery(query: CreateSupportRequest?) = apply {
+    requestUUID = UUID.randomUUID()
+    supportModel = query?.toModel()
 }
 
 fun ReadContext.setQuery(query: ReadSupportRequest) = apply {
@@ -33,13 +34,13 @@ private fun CreateSupportRequest.toModel() = SupportModel(
     uuid = UUID.randomUUID(),
     updated = OffsetDateTime.now(),
     created = OffsetDateTime.now(),
-    email = this.email,
-    name = this.name
+    email = this.email?:"",
+    name = this.name?:""
 )
 
 private fun UpdateSupportRequest.toModel() = SupportModel(
     uuid = this.uuid,
     updated = OffsetDateTime.now(),
-    email = this.email,
-    name = this.name
+    email = this.email?:"",
+    name = this.name?:""
 )

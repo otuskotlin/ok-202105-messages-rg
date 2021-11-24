@@ -2,7 +2,6 @@ package com.support
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.support.configuration.SpringConfiguration
 import com.support.controller.registerSupportRoute
 import com.support.service.SupportService
 import io.ktor.application.*
@@ -15,21 +14,20 @@ import io.ktor.routing.*
 import io.ktor.serialization.*
 import io.ktor.server.netty.*
 import kotlinx.serialization.Serializable
-import org.springframework.context.ApplicationContext
-import org.springframework.context.annotation.AnnotationConfigApplicationContext
+import kotlinx.serialization.json.Json
 import java.util.*
 
 
 @Serializable
 data class User(val username: String, val password: String)
-
 fun main(args: Array<String>): Unit {
     EngineMain.main(args)
 }
 
+
+
 fun Application.module() {
-    val context: ApplicationContext = AnnotationConfigApplicationContext(SpringConfiguration::class.java)
-    val supportService: SupportService = context.getBean(SupportService::class.java)
+    val supportService: SupportService = SupportService()
     install(ContentNegotiation) {
         json()
     }
@@ -63,7 +61,7 @@ fun Application.module() {
                 .withAudience(audience)
                 .withIssuer(issuer)
                 .withClaim("username", user.username)
-                .withExpiresAt(Date(System.currentTimeMillis() + 60000))
+                .withExpiresAt(Date(System.currentTimeMillis() + 6000000))
                 .sign(Algorithm.HMAC256(secret))
             call.respond(hashMapOf("token" to token))
         }

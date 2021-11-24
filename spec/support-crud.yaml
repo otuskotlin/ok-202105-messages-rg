@@ -222,8 +222,6 @@ components:
     CreateSupportRequest:
       description: Структура для создания юнита в репоизтории
       allOf:
-        - $ref: '#/components/schemas/BaseMessage'
-        - $ref: '#/components/schemas/BaseRequest'
         - $ref: '#/components/schemas/SupportMetaInfo'
 
 
@@ -383,9 +381,6 @@ components:
         email:
           description: email юнита
           type: string
-      required:
-        - name
-        - email
     SearchSupportResponse:
       description: Структура для ответа на запрос поиска юнитов
       allOf:
